@@ -1,3 +1,34 @@
+import pandas as pd
+from datetime import datetime, timedelta
+
+# Assuming df_prod_metadata is your dataframe and 'PublishedDate' is in datetime format
+# Convert the 'PublishedDate' column to datetime if it's not already
+df_prod_metadata['PublishedDate'] = pd.to_datetime(df_prod_metadata['PublishedDate'], errors='coerce')
+
+# Get the reference date (max date in 'PublishedDate')
+reference_date = df_prod_metadata['PublishedDate'].max()
+
+# Calculate past month and past 6 months from the reference date
+past_month = reference_date - timedelta(days=30.4 * 1)
+past_6months = reference_date - timedelta(days=30.4 * 6)
+
+print("Reference date is ->", reference_date)
+print("Past month date is ->", past_month)
+print("Past 6 months date is ->", past_6months)
+
+# Now use past_month and past_6months to filter your dataframe
+df_tmp = df_prod_metadata.loc[df_prod_metadata['PublishedDate'] >= past_month]
+
+
+
+
+
+
+
+
+
+
+
 # Filter the dataframe based on the date
 df_tmp = df_prod_metadata.loc[df_prod_metadata['PublishedDate'] >= past_month]
 
