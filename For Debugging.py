@@ -1,4 +1,44 @@
 import pandas as pd
+from datetime import timedelta
+
+# Convert the 'PublishedDate' column to datetime
+df_prod_metadata['PublishedDate'] = pd.to_datetime(df_prod_metadata['PublishedDate'], errors='coerce')
+
+# Drop rows with NaN in 'PublishedDate'
+df_prod_metadata = df_prod_metadata.dropna(subset=['PublishedDate'])
+
+# Set the reference date to the maximum date in 'PublishedDate'
+reference_date = df_prod_metadata['PublishedDate'].max()
+
+# Calculate past month and past 6 months from the reference date
+past_month = reference_date - timedelta(days=30.4 * 1)
+past_6months = reference_date - timedelta(days=30.4 * 6)
+
+# Filter the dataframe based on the date
+df_tmp = df_prod_metadata.loc[df_prod_metadata['PublishedDate'] >= past_month]
+
+# The rest of your code remains the same
+past_month_num_list = []
+past_month_perc_list = []
+
+for tag in concept_tags_unique:
+    num_with_tag = df_tmp.loc[df_tmp["Concept Tags"].str.contains(tag)].shape[0]
+    perc_with_tag = num_with_tag / len(df_tmp)
+
+    past_month_num_list.append(num_with_tag)
+    past_month_perc_list.append(str(round(perc_with_tag * 100)) + '%')
+
+output_table_1_df = pd.DataFrame()
+output_table_1_df["Concept"] = concept_tags_unique
+output_table_1_df["# of Docs this Month"] = past_month_num_list
+output_table_1_df["% of Docs this Month"] = past_month_perc_list
+
+
+
+******************
+
+
+import pandas as pd
 from datetime import datetime, timedelta
 
 # Assuming df_prod_metadata is your dataframe and 'PublishedDate' is in datetime format
