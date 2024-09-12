@@ -1,3 +1,45 @@
+
+from datetime import datetime, date
+
+class DateRangeParser:
+    @staticmethod
+    def _parse_absolute_date(text: str) -> DateRange:
+        parse_date = __class__._parse_date
+        today = date.today()
+        year = today.year
+        patterns = [
+            # Existing patterns like "from Aug 2023 till Mar 2024"
+            (r"\bfrom\s+(\w+\s+\d{4})\s+(till|until)\s+(\w+\s+\d{4})",
+             lambda m: (parse_date(m.group(1)), parse_date(m.group(3)))),
+             
+            # New pattern to match "this year" and "beginning of this year"
+            (r"\bthis year\b", lambda _: (date(year, 1, 1), today)),
+            (r"\bbeginning of this year\b", lambda _: (date(year, 1, 1), date(year, 1, 1))),
+            
+            # Other patterns for "since", "after", etc.
+            (r"\bsince\s+(\w+\s+\d{4})", lambda m: (parse_date(m.group(1)), None)),
+            (r"\bafter\s+(\w+\s+\d{4})\s+(till|until)\s+(\w+\s+\d{4})",
+             lambda m: (parse_date(m.group(1)), parse_date(m.group(3)))),
+        ]
+
+        # Now iterate over the patterns to find a match
+        for pattern, handler in patterns:
+            match = re.search(pattern, text, re.IGNORECASE)
+            if match:
+                return handler(match)
+        return None  # If no pattern matches, return None or handle appropriately
+
+    @staticmethod
+    def _parse_date(text: str) -> date:
+        """This function would handle parsing the actual date string."""
+        # Assuming this method already exists and parses date strings like "Aug 2023" into date objects
+        pass
+
+
+
+
+
+
 import pandas as pd
 from datetime import timedelta
 
