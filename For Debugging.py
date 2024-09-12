@@ -1,4 +1,7 @@
 
+# Match "since beginning of this year" (r"since\s+(the\s+)?beginning\s+of\s+this\s+year", lambda m: (date(today.year, 1, 1), today)), # Match "since the beginning of this year" (r"since\s+(the\s+)?beginning\s+of\s+the\s+year", lambda m: (date(today.year, 1, 1), today)) 
+
+
 from datetime import datetime, date
 
 class DateRangeParser:
