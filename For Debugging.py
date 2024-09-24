@@ -1,3 +1,31 @@
+import os
+
+def read_files_from_folder(folder_path):
+    # Loop through all the files in the folder
+    for filename in os.listdir(folder_path):
+        # Construct full file path
+        file_path = os.path.join(folder_path, filename)
+        
+        # Check if it's a file (not a subfolder)
+        if os.path.isfile(file_path):
+            # Print the filename
+            print(f"Reading file: {filename}")
+            
+            # Open and read the file
+            with open(file_path, 'r', encoding='utf-8') as file:
+                content = file.read()
+                
+                # Print the content of the file (Optional)
+                print(content)
+                print('-' * 40)  # Just to separate output for readability
+
+# Example usage
+folder_path = '/path/to/your/folder'  # Replace with the actual folder path
+read_files_from_folder(folder_path)
+
+
+
+
 
 # Match "since beginning of this year" (r"since\s+(the\s+)?beginning\s+of\s+this\s+year", lambda m: (date(today.year, 1, 1), today)), # Match "since the beginning of this year" (r"since\s+(the\s+)?beginning\s+of\s+the\s+year", lambda m: (date(today.year, 1, 1), today)) 
 
