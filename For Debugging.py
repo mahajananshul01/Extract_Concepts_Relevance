@@ -1,4 +1,50 @@
 import os
+import pandas as pd
+
+def read_text_files(path):
+    # Initialize a list to store filename and text content
+    data = []
+    counter = 1
+    
+    # Loop through all files in the directory
+    for file_name in os.listdir(path):
+        file_path = os.path.join(path, file_name)
+        
+        # Check if it's a file and has a .txt extension
+        if os.path.isfile(file_path) and file_name.endswith('.txt'):
+            print(f"Processing file #{counter}: {file_name}")
+            with open(file_path, 'r', encoding='utf-8') as f:
+                text = f.read()  # Read the content of the file
+                data.append([file_name, text])  # Append filename and text to the list
+            counter += 1  # Increment the counter
+    
+    # Convert the list into a DataFrame
+    df = pd.DataFrame(data, columns=['FileName', 'Text_Inside_File'])
+    
+    # Save the DataFrame as a CSV file
+    csv_file_path = os.path.join(path, 'output_text_files.csv')
+    df.to_csv(csv_file_path, index=False, encoding='utf-8')
+    
+    print(f"CSV file created: {csv_file_path}")
+    
+    # Return the DataFrame
+    return df
+
+# Example usage (you need to provide the path to your folder)
+# df = read_text_files('/path/to/your/folder')
+
+# To display the DataFrame
+# print(df)
+
+
+
+
+
+
+
+
+
+import os
 
 def read_files_from_folder(folder_path):
     # Loop through all the files in the folder
