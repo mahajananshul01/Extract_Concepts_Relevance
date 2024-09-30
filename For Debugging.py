@@ -1,12 +1,28 @@
+from azure.identity import ClientSecretCredential
 from azure.storage.blob import BlobServiceClient
 
-# Replace with your connection string
-CONNECTION_STRING = "your_connection_string"
-CONTAINER_NAME = "container-name"
+# Azure AD app registration details
+TENANT_ID = "your-tenant-id"
+CLIENT_ID = "your-client-id"
+CLIENT_SECRET = "your-client-secret"
+
+# Replace with your storage account URL
+STORAGE_ACCOUNT_URL = "https://app4071storagega.blob.core.windows.net"
+CONTAINER_NAME = "container-name"  # Specify your container name
+
+# Create a credential object using ClientSecretCredential
+def get_blob_service_client():
+    credential = ClientSecretCredential(
+        tenant_id=TENANT_ID,
+        client_id=CLIENT_ID,
+        client_secret=CLIENT_SECRET
+    )
+    # Create a BlobServiceClient using the credential
+    return BlobServiceClient(account_url=STORAGE_ACCOUNT_URL, credential=credential)
 
 def list_folders_and_files(container_name):
-    # Create a BlobServiceClient object using the connection string
-    blob_service_client = BlobServiceClient.from_connection_string(CONNECTION_STRING)
+    # Get the BlobServiceClient
+    blob_service_client = get_blob_service_client()
     
     # Get a client to interact with the specific container
     container_client = blob_service_client.get_container_client(container_name)
@@ -36,7 +52,6 @@ def list_folders_and_files(container_name):
                 folders_and_files[folder_name].append(file_name)
 
     return folders_and_files
-
 
 if __name__ == "__main__":
     # Call the function and print the folders and files
