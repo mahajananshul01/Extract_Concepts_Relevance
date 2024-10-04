@@ -1,3 +1,16 @@
+artifacts_root: artifacts
+
+data_ingestion:
+  root_dir: artifacts/data_ingestion
+  source_dir: dataset  # Replacing with your local dataset folder
+  local_data_file: artifacts/data_ingestion/data.zip  # If you still want to keep the zip structure
+  unzip_dir: artifacts/data_ingestion
+
+
+
+
+
+
 from azure.identity import ClientSecretCredential
 from azure.storage.blob import BlobServiceClient
 
